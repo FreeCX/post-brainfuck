@@ -1,0 +1,8 @@
+[package]
+name = "rust_bf_emulator"
+version = "0.1.0"
+edition = "2021"
+authors = ["Alexey Golubev <dr.freecx@gmail.com>"]
+
+[dependencies]
+argparse = "0.2"
