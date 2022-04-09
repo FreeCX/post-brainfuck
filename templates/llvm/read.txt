@@ -1,0 +1,5 @@
+    %v0{index} = load i32, i32* %mp
+    %v1{index} = getelementptr i8, i8* %mem, i32 %v0{index}
+    %v2{index} = call i32 @getchar()
+    %v3{index} = trunc i32 %v2{index} to i8
+    store i8 %v3{index}, i8* %v1{index}

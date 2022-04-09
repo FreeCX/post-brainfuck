@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_MEM_SIZE {mem_size}
+
+void out_of_memory() {{
+    puts("error: out of memory!");
+    exit(-1);
+}}
+
+void negative_memory() {{
+    puts("error: cannot access negative memory index!");
+    exit(-1);
+}}
+
+int main() {{
+    uint8_t mem[MAX_MEM_SIZE] = {{0}};
+    uint32_t mp = 0;
+
+{code}
+    return 0;
+}}

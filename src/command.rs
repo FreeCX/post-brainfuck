@@ -21,7 +21,7 @@ impl From<char> for Command {
             ',' => Command::Read,
             '[' => Command::LoopBegin(0),
             ']' => Command::LoopEnd(0),
-            token => panic!("unknown token `{}`", token),
+            token => panic!("unknown token `{token}`"),
         }
     }
 }

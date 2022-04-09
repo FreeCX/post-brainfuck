@@ -1,0 +1,6 @@
+    %v0{end} = load i32, i32* %mp
+    %v1{end} = getelementptr i8, i8* %mem, i32 %v0{end}
+    %v2{end} = load i8, i8* %v1{end}
+    %v3{end} = icmp ne i8 %v2{end}, 0
+    br i1 %v3{end}, label %LoopStart{start}, label %LoopEnd{end}
+LoopEnd{end}:

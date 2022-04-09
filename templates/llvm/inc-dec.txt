@@ -1,0 +1,5 @@
+    %v0{index} = load i32, i32* %mp
+    %v1{index} = getelementptr i8, i8* %mem, i32 %v0{index}
+    %v2{index} = load i8, i8* %v1{index}
+    %v3{index} = {cmd} i8 %v2{index}, {amount}
+    store i8 %v3{index}, i8* %v1{index}

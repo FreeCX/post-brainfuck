@@ -1,8 +1,10 @@
-use crate::command::Command;
-use crate::error::{Error, ExecuteError, ParseError};
 use std::fs::File;
 use std::io::{self, BufReader, Read, Write};
 use std::path::Path;
+use std::slice;
+
+use crate::command::Command;
+use crate::error::{Error, ExecuteError, ParseError};
 
 pub struct Emulator {
     stack: Vec<usize>,
@@ -46,7 +48,7 @@ impl Emulator {
             self.parse_token(token)?;
         }
 
-        match self.stack.len() > 0 {
+        match !self.stack.is_empty() {
             true => Err(ParseError::BracketsNumber.into()),
             false => Ok(()),
         }
@@ -118,5 +120,13 @@ impl Emulator {
         }
 
         Ok(())
+    }
+
+    pub fn mem_size(&self) -> usize {
+        self.mem.len()
+    }
+
+    pub fn iter_command(&self) -> slice::Iter<Command> {
+        self.app.iter()
     }
 }

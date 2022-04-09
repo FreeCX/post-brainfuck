@@ -1,0 +1,39 @@
+; ModuleID = 'brainfuck app'
+
+; const error string
+@err1 = private unnamed_addr constant [21 x i8] c"error: out of memory\00"
+@err2 = private unnamed_addr constant [43 x i8] c"error: cannot access negative memory index\00"
+
+; memory functions
+declare i8* @calloc(i32, i32)
+declare void @free(i8*)
+
+; io functions
+declare i32 @getchar()
+declare i32 @putchar(i32)
+declare i32 @puts(i8*)
+
+define i32 @main() {{
+    ; allocate {mem_size} memory cells
+    %mem = call i8* @calloc(i32 {mem_size}, i32 1)
+    ; allocate memory pointer on stack
+    %mp = alloca i32
+    ; and initialize it
+    store i32 0, i32* %mp
+
+    ; brainfuck code
+{code}
+    br label %AppEnd
+
+OutOfMemory:
+    call i32 @puts(i8* getelementptr inbounds ([21 x i8], [21 x i8]* @err1, i64 0, i64 0))
+    br label %AppEnd
+NegativeMemoryIndex:
+    call i32 @puts(i8* getelementptr inbounds ([43 x i8], [43 x i8]* @err2, i64 0, i64 0))
+    br label %AppEnd
+
+AppEnd:
+    ; dealloc memory
+    call void @free(i8* %mem)
+    ret i32 0
+}}
