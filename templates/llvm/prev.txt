@@ -1,5 +1,5 @@
     %v0{index} = load i32, i32* %mp
-    %v1{index} = {cmd} i32 %v0{index}, 1
+    %v1{index} = sub i32 %v0{index}, 1
     %v2{index} = icmp slt i32 %v1{index}, 0
     br i1 %v2{index}, label %NegativeMemoryIndex, label %PrevOk{index}
 PrevOk{index}:

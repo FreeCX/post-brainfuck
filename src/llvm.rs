@@ -14,14 +14,11 @@ impl TranspilerLLVM for Emulator {
                 Next => {
                     code.push_str(&format!(
                         include_str!("../templates/llvm/next.txt"),
-                        cmd = "add",
                         index = index,
                         max_size = self.mem_size()
                     ));
                 }
-                Previous => {
-                    code.push_str(&format!(include_str!("../templates/llvm/prev.txt"), cmd = "sub", index = index));
-                }
+                Previous => code.push_str(&format!(include_str!("../templates/llvm/prev.txt"), index = index)),
                 Increment => {
                     code.push_str(&format!(
                         include_str!("../templates/llvm/inc-dec.txt"),

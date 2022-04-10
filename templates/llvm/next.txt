@@ -1,5 +1,5 @@
     %v0{index} = load i32, i32* %mp
-    %v1{index} = {cmd} i32 %v0{index}, 1
+    %v1{index} = add i32 %v0{index}, 1
     %v2{index} = icmp sgt i32 %v1{index}, {max_size}
     br i1 %v2{index}, label %OutOfMemory, label %NextOk{index}
 NextOk{index}:
