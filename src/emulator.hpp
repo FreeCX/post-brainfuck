@@ -5,10 +5,12 @@
 #include <string>
 #include <vector>
 #include <stack>
-#include <map>
+
+#include "command.hpp"
+#include "consts.hpp"
 
 class Emulator {
-    std::map<std::size_t, std::size_t> jumps;
+    std::vector<std::size_t> jumps;
     std::stack<std::size_t> stack;
     std::vector<cmd::Command> app;
     std::vector<char> mem;
@@ -21,10 +23,15 @@ public:
 
     void parse_token(char token) {
         if (cmd::is_valid_token(token)) {
-            std::size_t index = app.size();
-            cmd::Command cmd = cmd::parse(token);
-            app.push_back(cmd);
+            app.push_back(cmd::parse(token));
+        }
+    }
 
+    void fill_jump_table() {
+        jumps.resize(app.size(), 0);
+
+        size_t index = 0;
+        for (auto cmd : app) {
             if (cmd == cmd::Command::LoopBegin) {
                 stack.push(index);
             }
@@ -36,16 +43,17 @@ public:
             }
             index += 1;
         }
+
+        if (stack.size() != 0) {
+            throw std::runtime_error("number of brackets does not match");
+        }
     }
 
     void from_buffer(const std::string &buffer) {
         for (auto token : buffer) {
             parse_token(token);
         }
-
-        if (stack.size() != 0) {
-            throw std::runtime_error("number of brackets does not match");
-        }
+        fill_jump_table();
     }
 
     void from_file(const char *filename) {
@@ -58,10 +66,7 @@ public:
         while (not fp.eof()) {
             parse_token(fp.get());
         }
-
-        if (stack.size() != 0) {
-            throw std::runtime_error("number of brackets does not match");
-        }
+        fill_jump_table();
     }
 
     void step() {

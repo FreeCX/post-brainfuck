@@ -1,7 +1,5 @@
 #include "argparse.hpp"
 #include "emulator.hpp"
-#include "command.hpp"
-#include "consts.hpp"
 
 
 int main(int argc, char *argv[]) {
@@ -33,7 +31,7 @@ int main(int argc, char *argv[]) {
         std::string buffer;
         std::cout << "> ";
         std::cin >> buffer;
-        app.from_stdin(buffer);
+        app.from_buffer(buffer);
     } else {
         app.from_file(filename.c_str());
     }
