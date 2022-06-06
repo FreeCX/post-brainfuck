@@ -11,7 +11,6 @@
 
 class Emulator {
     std::vector<std::size_t> jumps;
-    std::stack<std::size_t> stack;
     std::vector<cmd::Command> app;
     std::vector<char> mem;
     std::size_t ip = 0;
@@ -28,6 +27,7 @@ public:
     }
 
     void fill_jump_table() {
+        std::stack<std::size_t> stack;
         jumps.resize(app.size(), 0);
 
         size_t index = 0;
