@@ -3,17 +3,19 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
 	"io"
+	"os"
 )
+
+const MEM_MAX = 30_000
 
 type Emulator struct {
 	app   []byte
-	mem   [30000]byte
+	mem   [MEM_MAX]byte
 	jumps []uint
 
-	ip    uint
-	mp    uint
+	ip uint
+	mp uint
 
 	input io.Reader
 }
@@ -41,8 +43,7 @@ func FromFile(filename string) Emulator {
 		}
 	}
 
-	e.jumps = make([]uint, 0, len(e.app))
-	e.jumps = e.jumps[0:len(e.app)]
+	e.jumps = make([]uint, len(e.app))
 
 	var stack []uint
 	for index, char := range e.app {
@@ -63,8 +64,15 @@ func FromFile(filename string) Emulator {
 func (e *Emulator) step() {
 	switch command := e.app[e.ip]; command {
 	case '>':
+		if e.mp > MEM_MAX {
+			errmsg := fmt.Sprintf("(op >) memory pointer must be <= %d", MEM_MAX)
+			panic(errmsg)
+		}
 		e.mp += 1
 	case '<':
+		if e.mp == 0 {
+			panic("(op <) memory pointer must be >= 0")
+		}
 		e.mp -= 1
 	case '+':
 		e.mem[e.mp] += 1
